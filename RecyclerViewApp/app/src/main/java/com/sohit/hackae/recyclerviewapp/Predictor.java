@@ -1,5 +1,6 @@
 package com.sohit.hackae.recyclerviewapp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,11 @@ public class Predictor {
         this.apiKey = apiKey;
     }
 
-    public ClarifaiOutput<Concept> predictWithImage(String imageUrl) {
+    public ClarifaiOutput<Concept> predictWithImage(File file) {
         final List<ClarifaiOutput<Concept>> res =
                 client.getDefaultModels().generalModel() // You can also do client.getModelByID("id") to get your custom models
                         .predict()
-                        .withInputs(
-                                ClarifaiInput.forImage(imageUrl))
+                        .withInputs(ClarifaiInput.forImage(file))
                         .executeSync()
                         .get();
         if (res.size() != 1) {
