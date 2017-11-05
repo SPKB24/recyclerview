@@ -18,15 +18,16 @@ func main() {
 
 func textToMaterial(c *gin.Context) {
 	var req Request
-	if c.Bind(&req) == nil {
+	if c.BindQuery(&req) == nil {
 		log.Println("====== Bind By Query String ======")
 		log.Println(req.Text)
 	}
-
+	/*
 	if c.BindJSON(&req) == nil {
 		log.Println("====== Bind By JSON ======")
 		log.Println(req.Text)
 	}
+	*/
 	out, err := exec.Command("./predict", req.Text).Output()
 	if err != nil {
 		log.Println(err.Error())
