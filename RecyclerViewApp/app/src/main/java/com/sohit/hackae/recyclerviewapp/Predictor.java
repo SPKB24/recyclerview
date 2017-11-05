@@ -1,7 +1,10 @@
 package com.sohit.hackae.recyclerviewapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import clarifai2.api.ClarifaiBuilder;
@@ -10,14 +13,45 @@ import clarifai2.dto.input.ClarifaiInput;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.prediction.Concept;
 
-public class Predictor {
+public class Predictor extends AsyncTask<File, Void, ClarifaiOutput<Concept>> {
     private ClarifaiClient client;
     private String apiKey;
+    private Context context;
 
-    public Predictor(String apiKey) {
+    public Predictor(String apiKey, Context context) {
         client = new ClarifaiBuilder(apiKey)
                 .buildSync();
         this.apiKey = apiKey;
+        this.context = context;
+    }
+
+    @Override
+    protected ClarifaiOutput<Concept> doInBackground(File... files) {
+        return predictWithImage(files[0]);
+    }
+
+    @Override
+    protected void onPostExecute(ClarifaiOutput<Concept> input) {
+
+        System.out.println("******************************");
+        System.out.println("******************************");
+        System.out.println("******************************");
+        String resultsString="";
+        for (Concept c : input.data()) {
+            System.out.println(c.name());
+            resultsString += c.name() + ", ";
+        }
+
+        boolean isRecyclable = true;
+        if (!checkIfRecycling(input) && getMainMaterial(input) == null) {
+            isRecyclable = false;
+        }
+
+        // We have clarifai object, now pass data to other API
+        Intent intent = new Intent(context, ResultPage.class);
+        intent.putExtra("result", isRecyclable);
+        intent.putExtra("resultsString",resultsString);
+        context.startActivity(intent);
     }
 
     public ClarifaiOutput<Concept> predictWithImage(File file) {

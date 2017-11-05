@@ -1,5 +1,6 @@
 package com.sohit.hackae.recyclerviewapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,19 +15,23 @@ import android.widget.Toast;
 
 import com.mindorks.paracamera.Camera;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class CameraFragment extends Fragment {
 
-    private ImageView picFrame;
-    private ImageView otherThing;
-    private Camera camera;
+    private Activity context;
+//    private ImageView picFrame;
     private ProgressBar spinner;
+    private Camera camera;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = getActivity();
         View rootView = inflater.inflate(R.layout.fragment_camera, container, false);
-        picFrame = (ImageView) rootView.findViewById(R.id.picFrame);
-        otherThing = (ImageView) rootView.findViewById(R.id.picFrameImageView);
+//        picFrame = (ImageView) rootView.findViewById(R.id.picFrame);
         spinner = (ProgressBar) rootView.findViewById(R.id.magicSpinner);
         spinner.setVisibility(View.VISIBLE);
         return rootView;
@@ -40,7 +45,7 @@ public class CameraFragment extends Fragment {
                 .setTakePhotoRequestCode(1)
                 .setDirectory("pics")
                 .setName("recyclerView_" + System.currentTimeMillis())
-                .setImageFormat(Camera.IMAGE_JPEG)
+                .setImageFormat(Camera.IMAGE_PNG)
                 .setCompression(75)
                 .setImageHeight(1000)
                 .build(this);
@@ -57,11 +62,35 @@ public class CameraFragment extends Fragment {
         if (requestCode == Camera.REQUEST_TAKE_PHOTO) {
             Bitmap bitmap = camera.getCameraBitmap();
             if (bitmap != null) {
-                picFrame.setImageBitmap(bitmap);
+                new Predictor(Constants.clarify_api_key, context).execute(imageBitmapToFile(bitmap));
+//                picFrame.setImageBitmap(bitmap);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "Picture not taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private File imageBitmapToFile(final Bitmap input) {
+        try {
+            File f = new File(context.getCacheDir(), "newFile?");
+            f.createNewFile();
+
+            //Convert bitmap to byte array
+            Bitmap imgBitmap = input;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            imgBitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            return f;
+        } catch (Exception e) { /* Pls just work, thanks */ }
+
+        return null;
     }
 
     @Override
