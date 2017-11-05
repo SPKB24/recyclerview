@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+    "github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"os/exec"
 )
@@ -12,6 +13,9 @@ type Request struct {
 
 func main() {
 	route := gin.Default()
+
+    route.Use(static.Serve("/", static.LocalFile("./public", true)))
+
 	route.GET("/text_to_material", textToMaterial)
 	route.GET("/ping", pong)
 	route.Run(":8080")
