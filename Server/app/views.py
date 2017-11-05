@@ -5,6 +5,7 @@ from flask import request
 from app import app
 import subprocess
 import os
+import urllib2, json
 
 from clarifai import rest
 from clarifai.rest import ClarifaiApp
@@ -25,8 +26,20 @@ def api():
     cmd = "%s/scripts/text_to_image_url \"%s\"" % (os.environ['SERVER_ROOT'], req)
     image_url = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().rstrip()
     results = model.predict_by_url(url=image_url)
+    keyword_string = ""
+    for e in results['outputs'][0]['data']['concepts']:
+        keyword_string += e['name'].replace(' ', '_') + '-'
+    keyword_string = keyword_string[:-1]
+   
+    check_url = "https://e3ldzttflh.execute-api.us-east-2.amazonaws.com/api/recyclable?keywords=%s" % keyword_string
+    resp = json.loads(urllib2.urlopen(check_url).read())
     return jsonify(
         text=req,
-	url=image_url,
+	imageUrl=image_url,
         res=results['outputs'][0]['data']['concepts'],
+        recycle=resp['recyclable'],
+        material=resp['item_name'],
+        item=resp['material'],
+        string=keyword_string,
+        checkUrl=check_url
     )

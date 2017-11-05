@@ -8,3 +8,4 @@ from app import views
 
 # Load the config file
 app.config.from_object('config')
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
