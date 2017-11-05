@@ -1,12 +1,3 @@
-"""
-This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
-The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
-as testing instructions are located at http://amzn.to/1LzFrj6
-
-For additional samples, visit the Alexa Skills Kit Getting Started guide at
-http://amzn.to/1LGWsLG
-"""
-
 from __future__ import print_function
 
 materials = [
@@ -80,10 +71,6 @@ def create_item_to_check_attributes(item_to_check):
 
 
 def check_if_recyclable(intent, session):
-    """ Sets the color in the session and prepares the speech to reply to the
-    user.
-    """
-
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
