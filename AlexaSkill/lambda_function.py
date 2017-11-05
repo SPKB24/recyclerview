@@ -80,7 +80,11 @@ def check_if_recyclable(intent, session):
         results = json.load(urllib2.urlopen(q))
         card_title = url
 
-        if results['recyclable'] == True:
+        if results['compostable'] == True:
+        	speech_output = "Yes, but %s is compostable!" % item_to_check
+        	reprompt_text = speech_output
+
+        elif results['recyclable'] == True:
         	speech_output = "Yes, %s is recyclable!" % item_to_check
         	reprompt_text = speech_output
     	else:
