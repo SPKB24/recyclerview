@@ -1,0 +1,8 @@
+CheckItemIntent is {Item} recyclable
+CheckItemIntent check if {Item} is recyclable
+CheckItemIntent can you see if {Item} is recyclable
+CheckItemIntent can you see if a {Item} is recyclable
+CheckItemIntent can you see if {Item} is a recyclable item
+CheckItemIntent can you see if a {Item} is a recyclable item
+CheckItemIntent is {Item} able to be recycled
+CheckItemIntent is a {Item} able to be recycled
