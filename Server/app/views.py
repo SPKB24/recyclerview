@@ -14,7 +14,7 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route('/api')
+@app.route('/text_to_material')
 def api():
     req = request.args.get('text')
  
