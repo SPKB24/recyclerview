@@ -5,15 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context="com.sohit.hackae.recyclerviewapp.MainActivity">
+
+    <EditText
+        android:id="@+id/textBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="64dp"
+        android:hint="@string/text_hint"/>
 
     <Button
         android:id="@+id/cameraBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_margin="20dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         android:text="@string/camera_btn_text"
         android:textColor="#FFFFFF"
         android:background="@color/colorPrimaryDark"/>

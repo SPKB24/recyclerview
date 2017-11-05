@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">RecyclerViewApp</string>
-    <string name="camera_btn_text">Camera</string>
+    <string name="camera_btn_text">CHECK AN ITEM</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_hint">Check via Text</string>
 </resources>
