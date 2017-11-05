@@ -29,9 +29,26 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:id="@+id/thingType"
-        android:textSize="30sp"
-        android:paddingBottom="30dp"
+        android:textSize="40sp"
+        android:paddingBottom="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NULL"/>
+
+    <HorizontalScrollView
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/clarifaiDescriptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:scrollbars="horizontal" />
+
+    </HorizontalScrollView>
 </RelativeLayout>

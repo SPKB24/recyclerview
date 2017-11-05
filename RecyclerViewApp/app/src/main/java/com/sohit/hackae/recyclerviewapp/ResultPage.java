@@ -3,6 +3,7 @@ package com.sohit.hackae.recyclerviewapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,13 +24,15 @@ public class ResultPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_result_page);
 
-        TextView textView_type = findViewById(R.id.thingType);
         linearLayout = findViewById(R.id.linearLayout);
-
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        TextView textView_type = findViewById(R.id.thingType);
+        ImageView imageView = findViewById(R.id.imageView);
+        TextView textView = findViewById(R.id.clarifaiDescriptions);
+        textView.setMovementMethod(new ScrollingMovementMethod());
 
         Bundle extras = getIntent().getExtras();
 
+        String clarifaiDescriptions = extras.getString("resultsString");
         boolean isCompostable = extras.getBoolean("isCompostable");
         boolean isRecyclable = extras.getBoolean("isRecyclable");
 
@@ -44,6 +47,8 @@ public class ResultPage extends AppCompatActivity {
             linearLayout.setBackgroundResource(R.color.red);
             textView_type.setText("Garbage");
         }
+
+        textView.setText(clarifaiDescriptions.replace("_", " ").replace("-",", "));
     }
 
     @Override
