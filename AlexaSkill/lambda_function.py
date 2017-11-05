@@ -1,9 +1,14 @@
 from __future__ import print_function
+import urllib2
+import json
 
 materials = [
 	"pizza box",
 	"shampoo bottle",
 ]
+
+API_BASE="http://bartjsonapi.elasticbeanstalk.com/api"
+
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -77,7 +82,13 @@ def check_if_recyclable(intent, session):
 
     if 'Item' in intent['slots']:
         item_to_check = intent['slots']['Item']['value']
-        if item_to_check in materials:
+        url = "http://wecyclr.net/text_to_material?text=" + item_to_check.replace(' ', '%20')
+        q = urllib2.Request(url)
+        q.add_header('User-Agent', 'Mozilla/5.0')
+        results = json.load(urllib2.urlopen(q))
+        card_title = url
+
+        if results['recyclable'] == True:
         	speech_output = "Yes, %s is recyclable!" % item_to_check
         	reprompt_text = speech_output
     	else:
