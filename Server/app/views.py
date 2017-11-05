@@ -38,8 +38,8 @@ def api():
 	imageUrl=image_url,
         res=results['outputs'][0]['data']['concepts'],
         recycle=resp['recyclable'],
-        material=resp['item_name'],
-        item=resp['material'],
+        item=resp['item_name'],
+        material=resp['material'],
         string=keyword_string,
         checkUrl=check_url
     )
