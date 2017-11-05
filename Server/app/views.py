@@ -3,6 +3,8 @@ from flask import jsonify
 from flask import request
 
 from app import app
+import subprocess
+import os
 
 @app.route('/')
 def index():
@@ -14,10 +16,11 @@ def about():
 
 @app.route('/api')
 def api():
-    str = request.args.get('text')
+    req = request.args.get('text')
+ 
+    cmd = "%s/scripts/text_to_image_url \"%s\"" % (os.environ['SERVER_ROOT'], req)
+    url = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().rstrip()
     return jsonify(
-        username="Dave",
-        string=str,
-        email="dave@davemachado.com",
-        id="123"
+        text=req,
+	url=url,
     )
