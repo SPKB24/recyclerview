@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.irozon.sneaker.Sneaker;
+import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,12 +36,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Sneaker.with(this)
-//                .setTitle("Test Sneaker notification", R.color.white)
-//                .setMessage("Sneaker message here!", R.color.white)
-//                .setIcon(R.drawable.ic_success)
-//                .setHeight(100)
-//                .autoHide(false)
-//                .sneak(R.color.black);
+        final TextFieldBoxes textFieldContainer = (TextFieldBoxes) findViewById(R.id.text_field_boxes);
+        final ExtendedEditText textField = (ExtendedEditText) findViewById(R.id.extended_edit_text);
+        final ProgressBar magicSpinner = (ProgressBar) findViewById(R.id.magicSpinner);
+        final ImageView searchBtn = (ImageView) findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (textField.getText().toString().length() > 0) {
+                    magicSpinner.setVisibility(View.VISIBLE);
+                    searchBtn.setVisibility(View.GONE);
+                    textFieldContainer.setEnabled(false);
+
+                    new TextRecyclingHandler(getApplicationContext()).execute("http://wecyclr.net/text_to_material?text=" + textField.getText().toString().replace(" ", "%20"));
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter some text", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

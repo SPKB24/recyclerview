@@ -1,15 +1,12 @@
 package com.sohit.hackae.recyclerviewapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collectors;
 
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
@@ -50,7 +47,7 @@ public class Predictor extends AsyncTask<File, Void, ClarifaiOutput<Concept>> {
         resultsString = resultsString.replace(" ", "_");
 
         // We have clarifai object, now pass data to other API
-        new HttpRequestHandler(context, resultsString).execute("https://e3ldzttflh.execute-api.us-east-2.amazonaws.com/api/recyclable?keywords=" + resultsString);
+        new ImageRecyclingHandler(context, resultsString).execute("https://e3ldzttflh.execute-api.us-east-2.amazonaws.com/api/recyclable?keywords=" + resultsString);
 //
 //        Intent intent = new Intent(context, ResultPage.class);
 //        intent.putExtra("result", isRecyclable);

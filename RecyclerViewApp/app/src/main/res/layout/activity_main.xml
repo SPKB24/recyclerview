@@ -1,32 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/blue"
     tools:context="com.sohit.hackae.recyclerviewapp.MainActivity">
 
-    <EditText
-        android:id="@+id/textBox"
+    <TextView
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="64dp"
-        android:hint="@string/text_hint"/>
+        android:paddingTop="30dp"
+        android:text="WECYCLR"
+        android:textColor="@color/white"
+        android:textSize="60sp"/>
 
-    <Button
-        android:id="@+id/cameraBtn"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="200dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:text="@string/camera_btn_text"
-        android:textColor="#FFFFFF"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                android:id="@+id/text_field_boxes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="70dp"
+                app:primaryColor="@color/white"
+                app:secondaryColor="@color/white"
+                app:counterTextColor="@color/white"
+                android:padding="5dp"
+                app:labelText="Search for an item">
+
+                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                    android:id="@+id/extended_edit_text"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+            <ImageView
+                android:id="@+id/searchBtn"
+                android:padding="15dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search_white_24dp"/>
+
+            <ProgressBar
+                android:id="@+id/magicSpinner"
+                android:padding="15dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/cameraBtn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/betterblack"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="20dp"
+            android:layout_margin="5dp"
+            android:text="Search by Image"
+            android:drawableLeft="@android:drawable/ic_menu_camera"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
