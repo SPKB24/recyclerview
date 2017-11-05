@@ -18,8 +18,12 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route('/text_to_material')
+@app.route('/api')
 def api():
+    return jsonify(resp="asd")
+
+@app.route('/text_to_material')
+def text_to_material():
     app = ClarifaiApp(api_key=os.environ['CL_PASS'])
     model = app.models.get("general-v1.3")
     req = request.args.get('text')
