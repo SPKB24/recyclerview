@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+from bs4 import BeautifulSoup as Soup
+import urllib.request
+import json
+import sys
+
+def get_links(query_string):
+    query_string = query_string.replace(' ', '%20')    
+    links = []
+    url = 'https://www.google.com/search?ei=1m7NWePfFYaGmQG51q7IBg&hl=en&q='+query_string+'&tbm=isch&ved=0ahUKEwjjovnD7sjWAhUGQyYKHTmrC2kQuT0I7gEoAQ&start=1&yv=2&vet=10ahUKEwjjovnD7sjWAhUGQyYKHTmrC2kQuT0I7gEoAQ.1m7NWePfFYaGmQG51q7IBg.i&ijn=1&asearch=ichunk&async=_id:rg_s,_pms:s'
+    
+    json_string = urllib.request.urlopen(url)
+    
+    page = json.loads(json_string.read().decode('ISO-8859-1'))
+
+    html = page[1][1] 
+    
+    new_soup = Soup(html,'lxml')
+
+    imgs = new_soup.find_all('img')
+
+    for j in range(len(imgs)):
+        links.append(imgs[j]["src"])
+
+    return links
+
+if len(sys.argv) != 2:
+    print('need text to get image!')
+    sys.exit(1)
+print(get_links(sys.argv[1])[0])

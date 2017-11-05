@@ -1,10 +1,11 @@
 package com.sohit.hackae.recyclerviewapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import clarifai2.api.ClarifaiBuilder;
@@ -36,22 +37,22 @@ public class Predictor extends AsyncTask<File, Void, ClarifaiOutput<Concept>> {
         System.out.println("******************************");
         System.out.println("******************************");
         System.out.println("******************************");
-        String resultsString="";
+        List<String> resultsList = new ArrayList<>();
         for (Concept c : input.data()) {
             System.out.println(c.name());
-            resultsString += c.name() + ", ";
+            resultsList.add(c.name());
         }
 
-        boolean isRecyclable = true;
-        if (!checkIfRecycling(input) && getMainMaterial(input) == null) {
-            isRecyclable = false;
-        }
+        String resultsString = TextUtils.join("-", resultsList);
+        resultsString = resultsString.replace(" ", "_");
 
         // We have clarifai object, now pass data to other API
-        Intent intent = new Intent(context, ResultPage.class);
-        intent.putExtra("result", isRecyclable);
-        intent.putExtra("resultsString",resultsString);
-        context.startActivity(intent);
+        new ImageRecyclingHandler(context, resultsString).execute("https://e3ldzttflh.execute-api.us-east-2.amazonaws.com/api/recyclable?keywords=" + resultsString);
+//
+//        Intent intent = new Intent(context, ResultPage.class);
+//        intent.putExtra("result", isRecyclable);
+//        intent.putExtra("resultsString",resultsString);
+//        context.startActivity(intent);
     }
 
     public ClarifaiOutput<Concept> predictWithImage(File file) {
