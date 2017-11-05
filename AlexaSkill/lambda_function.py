@@ -75,11 +75,11 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def create_favorite_color_attributes(favorite_color):
-    return {"favoriteColor": favorite_color}
+def create_item_to_check_attributes(item_to_check):
+    return {"favoriteColor": item_to_check}
 
 
-def set_color_in_session(intent, session):
+def check_if_recyclable(intent, session):
     """ Sets the color in the session and prepares the speech to reply to the
     user.
     """
@@ -88,21 +88,21 @@ def set_color_in_session(intent, session):
     session_attributes = {}
     should_end_session = False
 
-    if 'Color' in intent['slots']:
-        favorite_color = intent['slots']['Color']['value']
-        session_attributes = create_favorite_color_attributes(favorite_color)
-        speech_output = "I now know your favorite color is " + \
-                        favorite_color + \
-                        ". You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
-        reprompt_text = "You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
+    if 'Item' in intent['slots']:
+        item_to_check = intent['slots']['Item']['value']
+        if item_to_check in materials:
+        	speech_output = "Yes, that is recyclable!"
+        	reprompt_text = speech_output
+    	else:
+    		speech_output = "No, that is not recyclable."
+    		reprompt_text = speech_output
+        session_attributes = create_item_to_check_attributes(item_to_check)
     else:
-        speech_output = "I'm not sure what your favorite color is. " \
+        speech_output = "I'm not sure what item you are asking about. " \
                         "Please try again."
-        reprompt_text = "I'm not sure what your favorite color is. " \
-                        "You can tell me your favorite color by saying, " \
-                        "my favorite color is red."
+        reprompt_text = "I'm not sure what item you are asking about. " \
+                        "Please tell me what item you'd like to check by saying something like, " \
+                    	"is a shampoo bottle recyclable?"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -112,8 +112,8 @@ def get_color_from_session(intent, session):
     reprompt_text = None
 
     if session.get('attributes', {}) and "favoriteColor" in session.get('attributes', {}):
-        favorite_color = session['attributes']['favoriteColor']
-        speech_output = "Your favorite color is " + favorite_color + \
+        item_to_check = session['attributes']['favoriteColor']
+        speech_output = "Your favorite color is " + item_to_check + \
                         ". Goodbye."
         should_end_session = True
     else:
@@ -159,7 +159,7 @@ def on_intent(intent_request, session):
 
     # Dispatch to your skill's intent handlers
     if intent_name == "MyColorIsIntent":
-        return set_color_in_session(intent, session)
+        return check_if_recyclable(intent, session)
     elif intent_name == "WhatsMyColorIntent":
         return get_color_from_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
