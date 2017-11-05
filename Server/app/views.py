@@ -6,6 +6,9 @@ from app import app
 import subprocess
 import os
 
+from clarifai import rest
+from clarifai.rest import ClarifaiApp
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -16,11 +19,14 @@ def about():
 
 @app.route('/text_to_material')
 def api():
+    app = ClarifaiApp(api_key=os.environ['CL_PASS'])
+    model = app.models.get("general-v1.3")
     req = request.args.get('text')
- 
     cmd = "%s/scripts/text_to_image_url \"%s\"" % (os.environ['SERVER_ROOT'], req)
-    url = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().rstrip()
+    image_url = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().rstrip()
+    results = model.predict_by_url(url=image_url)
     return jsonify(
         text=req,
-	url=url,
+	url=image_url,
+        res=results['outputs'][0]['data']['concepts'],
     )
