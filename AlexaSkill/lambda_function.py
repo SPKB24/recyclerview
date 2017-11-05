@@ -2,14 +2,6 @@ from __future__ import print_function
 import urllib2
 import json
 
-materials = [
-	"pizza box",
-	"shampoo bottle",
-]
-
-API_BASE="http://bartjsonapi.elasticbeanstalk.com/api"
-
-
 # --------------- Helpers that build all of the responses ----------------------
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
