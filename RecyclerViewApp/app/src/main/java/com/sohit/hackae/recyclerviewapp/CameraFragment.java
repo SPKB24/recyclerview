@@ -46,8 +46,8 @@ public class CameraFragment extends Fragment {
                 .setDirectory("pics")
                 .setName("recyclerView_" + System.currentTimeMillis())
                 .setImageFormat(Camera.IMAGE_PNG)
-                .setCompression(75)
-                .setImageHeight(1000)
+                .setCompression(100)
+                .setImageHeight(500)
                 .build(this);
         try {
             camera.takePicture();
@@ -63,7 +63,6 @@ public class CameraFragment extends Fragment {
             Bitmap bitmap = camera.getCameraBitmap();
             if (bitmap != null) {
                 new Predictor(Constants.clarify_api_key, context).execute(imageBitmapToFile(bitmap));
-//                picFrame.setImageBitmap(bitmap);
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "Picture not taken!", Toast.LENGTH_SHORT).show();
             }
