@@ -25,9 +25,9 @@ import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 public class ImageRecyclingHandler extends AsyncTask<String, Boolean, String> {
 
     private Context context = null;
-    private JSONObject resultJson = null;
+    private Boolean isRecyclable = false;
+    private Boolean isCompostable = false;
     private String allResults = "";
-
     public ImageRecyclingHandler() {}
 
     public ImageRecyclingHandler(Context context, String allResults) {
@@ -48,7 +48,7 @@ public class ImageRecyclingHandler extends AsyncTask<String, Boolean, String> {
                 InputStream instream = entity.getContent();
                 result = convertStreamToString(instream);
                 System.out.println(result);
-                result = getRecyclerResult(result);
+                getRecyclerResult(result);
                 instream.close();
             }
         } catch (Exception e) {
@@ -85,7 +85,10 @@ public class ImageRecyclingHandler extends AsyncTask<String, Boolean, String> {
 
     private String getRecyclerResult(String input) {
         try {
-            resultJson = new JSONObject(input);
+            JSONObject resultJson = new JSONObject(input);
+            isCompostable = resultJson.getBoolean("compostable");
+            isRecyclable = resultJson.getBoolean("recyclable");
+            System.out.println(resultJson);
             return resultJson.getString("recyclable");
         } catch (Exception e) { /* No */ }
 
@@ -96,7 +99,8 @@ public class ImageRecyclingHandler extends AsyncTask<String, Boolean, String> {
     protected void onPostExecute(String result) {
         if (context != null) {
             Intent intent = new Intent(context, ResultPage.class);
-            intent.putExtra("result", result.equals("true"));
+            intent.putExtra("isCompostable", isCompostable);
+            intent.putExtra("isRecyclable", isRecyclable);
             intent.putExtra("resultsString", allResults);
             context.startActivity(intent);
         } else {

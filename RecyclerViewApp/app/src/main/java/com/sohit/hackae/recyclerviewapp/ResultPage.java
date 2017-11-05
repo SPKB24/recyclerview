@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ResultPage extends AppCompatActivity {
 
-    private LinearLayout validRecycleLayout;
-    private LinearLayout invalidRecycleLayout;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +23,26 @@ public class ResultPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_result_page);
 
-        validRecycleLayout = findViewById(R.id.validRecycle);
-        invalidRecycleLayout = findViewById(R.id.invalidRecycle);
+        TextView textView_type = findViewById(R.id.thingType);
+        linearLayout = findViewById(R.id.linearLayout);
 
-        TextView validResults = (TextView) findViewById(R.id.validResults);
-        TextView invalidResults = (TextView) findViewById(R.id.invalidResults);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
         Bundle extras = getIntent().getExtras();
-        boolean result = extras.getBoolean("result");
-        String resultsString = extras.getString("resultsString");
 
-        validResults.setText(resultsString);
-        invalidResults.setText(resultsString);
+        boolean isCompostable = extras.getBoolean("isCompostable");
+        boolean isRecyclable = extras.getBoolean("isRecyclable");
 
-        if (!result) {
-            validRecycleLayout.setVisibility(View.GONE);
-            invalidRecycleLayout.setVisibility(View.VISIBLE);
+        if (isCompostable) {
+            imageView.setImageResource(R.drawable.compost);
+            textView_type.setText("Compostable");
+        } else if (isRecyclable) {
+            imageView.setImageResource(R.drawable.recycle);
+            textView_type.setText("Recyclable");
+        } else {
+            imageView.setImageResource(R.drawable.cancel);
+            linearLayout.setBackgroundResource(R.color.red);
+            textView_type.setText("Garbage");
         }
     }
 

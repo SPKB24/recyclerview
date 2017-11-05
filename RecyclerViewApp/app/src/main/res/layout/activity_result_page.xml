@@ -4,63 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
     tools:context="com.sohit.hackae.recyclerviewapp.ResultPage">
 
     <LinearLayout
-        android:id="@+id/spinnerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/magicSpinner"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:id="@+id/picFrameImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:id="@+id/picFrame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/validRecycle"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/green"
-        android:gravity="center">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/validResults"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="This item is recyclable"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/invalidRecycle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/red"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/invalidResults"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="This item is not recyclable"/>
-    </LinearLayout>
+    <TextView
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/thingType"
+        android:textSize="30sp"
+        android:paddingBottom="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NULL"/>
 </RelativeLayout>

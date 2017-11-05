@@ -25,6 +25,8 @@ import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 public class TextRecyclingHandler extends AsyncTask<String, Boolean, String> {
 
     private Context context = null;
+    private Boolean isRecyclable = false;
+    private Boolean isCompostable = false;
     private String allResults = null;
 
     public TextRecyclingHandler() {}
@@ -85,6 +87,8 @@ public class TextRecyclingHandler extends AsyncTask<String, Boolean, String> {
         try {
             JSONObject resultJson = new JSONObject(input);
             allResults = resultJson.getString("keywordString");
+            isCompostable = resultJson.getBoolean("compostable");
+            isRecyclable = resultJson.getBoolean("recyclable");
             return resultJson.getString("recyclable");
         } catch (Exception e) { /* No */ }
 
@@ -95,7 +99,8 @@ public class TextRecyclingHandler extends AsyncTask<String, Boolean, String> {
     protected void onPostExecute(String result) {
         if (context != null) {
             Intent intent = new Intent(context, ResultPage.class);
-            intent.putExtra("result", result.equals("true"));
+            intent.putExtra("isCompostable", isCompostable);
+            intent.putExtra("isRecyclable", isRecyclable);
             intent.putExtra("resultsString", allResults);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
