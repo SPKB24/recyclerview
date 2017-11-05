@@ -2,7 +2,7 @@
 function someFunc() {
 	var XHR = new XMLHttpRequest();
 	var form = document.getElementById("some").value;
-	
+    var resultDiv = document.getElementById("result");	
 	XHR.open('GET', "http://34.227.56.233/text_to_material?text="+ form, true);
 	
 	XHR.send();
@@ -14,15 +14,15 @@ function someFunc() {
 			
 			var response = JSON.parse(XHR.responseText);
 			if (response.compostable){
-				window.alert("Compostable");
+                resultDiv.innerHTML = "Compostable!"
 			}
 			else if (response.recyclable){
-				window.alert("Recyclable");
+				resultDiv.innerHTML = "Recyclable!"
 			}
 			else{
-				window.alert("Trash");
+				resultDiv.innerHTML = "Garbage"
 			}
-
+            resultDiv.style.visibility='visible';
 		}
 	}
 
