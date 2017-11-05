@@ -22,17 +22,15 @@ import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
  * Created by sohit on 10/6/17.
  */
 
-public class HttpRequestHandler extends AsyncTask<String, Boolean, String> {
+public class TextRecyclingHandler extends AsyncTask<String, Boolean, String> {
 
     private Context context = null;
-    private JSONObject resultJson = null;
-    private String allResults = "";
+    private String allResults = null;
 
-    public HttpRequestHandler() {}
+    public TextRecyclingHandler() {}
 
-    public HttpRequestHandler(Context context, String allResults) {
+    public TextRecyclingHandler(Context context) {
         this.context = context;
-        this.allResults = allResults;
     }
 
     @Override
@@ -85,7 +83,8 @@ public class HttpRequestHandler extends AsyncTask<String, Boolean, String> {
 
     private String getRecyclerResult(String input) {
         try {
-            resultJson = new JSONObject(input);
+            JSONObject resultJson = new JSONObject(input);
+            allResults = resultJson.getString("keywordString");
             return resultJson.getString("recyclable");
         } catch (Exception e) { /* No */ }
 
@@ -98,6 +97,7 @@ public class HttpRequestHandler extends AsyncTask<String, Boolean, String> {
             Intent intent = new Intent(context, ResultPage.class);
             intent.putExtra("result", result.equals("true"));
             intent.putExtra("resultsString", allResults);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             Toast.makeText(null, "Something went wrong!", Toast.LENGTH_SHORT).show();
