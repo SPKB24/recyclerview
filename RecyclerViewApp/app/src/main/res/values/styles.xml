@@ -9,7 +9,7 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppTheme.NoTitleBar">
+    <style name="AppTheme.NoTitleBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
